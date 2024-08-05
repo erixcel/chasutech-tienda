@@ -1,0 +1,17 @@
+.grecaptcha-badge {
+  left: 40px !important;
+  bottom: 40px !important;
+  max-width: 70px !important;
+  z-index: 1 !important;
+}
+
+.grecaptcha-badge:hover {
+  max-width: 100% !important;
+}
+
+@media (max-width: 600px) {
+  .grecaptcha-badge {
+    bottom:15px !important;
+    left:15px !important;
+  }
+}

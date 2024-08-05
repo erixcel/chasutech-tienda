@@ -1,0 +1,194 @@
+<app-nav></app-nav>
+
+<div class="ps-page--default">
+    <div class="container">
+      <div class="ps-page__header">
+        <h3>Mi cuenta</h3>
+        <ul class="ps-breadcrumb">
+          <li><a  style="cursor: pointer;" [routerLink]="['/cuenta/perfil']" >Mi perfil</a></li>
+          <li class="active"><a><b>Direcciones</b></a></li>
+          <li><a  style="cursor: pointer;" [routerLink]="['/cuenta/pedidos']">Mis pedidos</a></li>
+          <li><a  style="cursor: pointer;" [routerLink]="['/cuenta/reviews']">Mis reseñas</a></li>
+
+        </ul>
+      </div>
+      <div class="ps-page__content">
+
+<div class="ps-tab-root">
+        <div class="ps-form--auth" style="max-width: 500px !important;">
+          <ul class="ps-tab-list">
+            <li [ngClass]="{'active': op == 1}" (click)="changeOp(1)"><a>Nueva dirección</a></li>
+            <li [ngClass]="{'active': op == 2}" (click)="changeOp(2)"><a>Direcciones</a></li>
+          </ul>
+          <div class="ps-tabs">
+            <div class="ps-tab"  [ngClass]="{'active': op == 1}">
+
+              <div class="ps-checkout">
+                <div class="col-12" *ngIf="direcciones.length >= 4">
+                  <div class="rounded mb-5 p-3">
+                    <form class="ps-form--404" action="404-page.html" method="get">
+                      <div class="ps-form__header">
+                        <img src="assets/images/icono-no-orden.png" alt="">
+                      </div>
+                      <h3 class="text-muted">LLegaste al limite de direcciones.</h3>
+                      <p class="text-muted">Puedes registrar como maximo 4 direcciones.</p>
+                    </form>
+                  </div>
+                </div>
+                <form *ngIf="direcciones.length < 4" class="ps-form--checkout" #registroForm="ngForm" style="margin-bottom: 50px;">
+                  <div class="row">
+                    <div class="col-md-12 mx-auto">
+                      <div class="ps-form__billings">
+
+                        <div class="row">
+                          <div class="col-sm-6 form-group">
+                              <label for="ac-fn">Nombres</label>
+                              <input type="text" required class="form-control form-control-lg" name="nombres" [(ngModel)]="direccion.nombres" placeholder="Nombres completos" [readOnly]="sms_status">
+                          </div>
+                          <div class="col-sm-6 form-group">
+                              <label for="ac-fn">Apellidos</label>
+                              <input type="text" required class="form-control form-control-lg" name="apellidos" [(ngModel)]="direccion.apellidos" placeholder="Apellidos completos" [readOnly]="sms_status">
+                          </div>
+                          <div class="col-sm-6 form-group">
+                              <label for="ac-fn">Documento de Identidad</label>
+                              <input type="number" required class="form-control form-control-lg" name="dni" [(ngModel)]="direccion.dni" placeholder="Numero" [readOnly]="sms_status">
+                          </div>
+                          <div class="col-sm-6 form-group">
+                              <label for="ac-fn">ZIP (Opcional)
+                              </label>
+                              <input type="text" class="form-control form-control-lg" name="zip" [(ngModel)]="direccion.zip" placeholder="Código postal" [readOnly]="sms_status">
+                          </div>
+                          <div class="col-sm-6 form-group">
+                              <label for="ac-fn">País</label>
+                              <input type="text" class="form-control form-control-lg" name="pais" [(ngModel)]="direccion.pais" readonly>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                              <label for="ac-fn">Departamento</label>
+                              <select id="sl-departamento"  name="departamento" [(ngModel)]="direccion.departamento" class="form-control" disabled (change)="select_departamento()" [disabled]="sms_status" required>
+                                  <option value="" selected disabled>Seleccionar</option>
+                                  <option value="{{item.id}}" *ngFor="let item of departamentos">{{item.name}}</option>
+                              </select>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                              <label for="ac-fn">Provincia</label>
+                              <select id="sl-provincia" name="provincia" [(ngModel)]="direccion.provincia" class="form-control" disabled (change)="select_provincia()" [disabled]="sms_status" required>
+                                  <option value="" selected disabled>Seleccionar</option>
+                                  <option value="{{item.id}}" *ngFor="let item of provincias">{{item.name}}</option>
+                              </select>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                              <label for="ac-fn">Distrito</label>
+                              <select id="sl-distrito" name="distrito" [(ngModel)]="direccion.distrito" class="form-control" disabled [disabled]="sms_status" required>
+                                  <option value="" selected disabled>Seleccionar</option>
+                                  <option value="{{item.id}}" *ngFor="let item of distritos">{{item.name}}</option>
+                              </select>
+                          </div>
+                          <div class="col-sm-12 form-group">
+                            <label for="ac-fn">Dirección</label>
+                            <textarea required class="form-control" placeholder="Direccion" name="direccion" [(ngModel)]="direccion.direccion" rows="3" [disabled]="sms_status"></textarea>
+                          </div>
+                          <div class="col-sm-12 form-group">
+                              <label for="ac-fn">Referencia
+                              </label>
+                              <textarea type="text" required class="form-control" placeholder="Referencia" name="referencia" [(ngModel)]="direccion.referencia" rows="2" [disabled]="sms_status"></textarea>
+                          </div>
+                          <div class="col-sm-12 form-group">
+                            <label for="ac-fn">Telefono</label>
+                            <input type="number" required class="form-control form-control-lg" name="telefono" [(ngModel)]="direccion.telefono" placeholder="Telefono" [disabled]="sms_status">
+                          </div>
+                          <div *ngIf="!sms_status" class="col-sm-12">
+                            <button type="button" class="ps-btn ps-btn--fullwidth ps-btn--black" (click)="enviarSMS(registroForm,direccion.telefono)">Guardar</button>
+                          </div>
+                          <ng-container *ngIf="sms_status">
+                            <hr>
+                            <div class="col-12 form-group">
+                              <label>*Verificar telefono</label>
+                              <input #code type="text" required class="form-control form-control-lg" placeholder="Ingrese codigo">
+                            </div>
+                            <div class="col-12">
+                              <button class="ps-btn ps-btn--fullwidth ps-btn--black py-3" type="button" (click)="verificarSMS(code.value)">Verificar</button>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <p *ngIf="direcciones.length < 4" class="mb-15">Direcciones restantes: {{4 - direcciones.length}}</p>
+            </div>
+            <div class="ps-tab"  [ngClass]="{'active': op == 2}" >
+                <div class="">
+                    <div class="ps-form--checkout" >
+                      <div class="row">
+                          <div class="col-md-12 mx-auto">
+
+                              <div class="row">
+                                  <ng-container *ngIf="!load_data">
+                                      <div class="col-12" *ngIf="direcciones.length >= 1">
+                                          <ng-container *ngFor="let item of direcciones">
+                                              <div class="card mb-3">
+                                                  <div class="card-body">
+                                                      <figure>
+                                                          <figcaption>{{item.destinatario}}</figcaption>
+                                                          <span class="d-block mb-3 font-size-sm text-muted">{{item.zip}}</span>
+
+                                                          <div class="row">
+                                                              <div class="col">
+                                                                  <p> {{item.direccion}}
+                                                                      <ng-container *ngIf="item.referencia">
+                                                                          <br>
+                                                                          {{item.referencia}}
+                                                                      </ng-container>
+
+                                                                  </p>
+                                                                  <p>
+                                                                    {{item.pais}}, {{item.departamento}}
+                                                                   <br>
+                                                                    <span>{{item.provincia}}, {{item.distrito}}</span>
+                                                                  </p>
+                                                              </div>
+                                                              <div>
+                                                                <a class="text-danger" (click)="eliminar(item._id)" style="cursor: pointer;margin-right: 2rem; display: block;">[Eliminar]</a>
+                                                              </div>
+                                                          </div>
+                                                      </figure>
+
+                                                  </div>
+                                              </div>
+                                          </ng-container>
+                                      </div>
+                                      <div class="col-12" *ngIf="direcciones.length == 0">
+                                        <div class="rounded mb-5 p-3">
+                                            <form class="ps-form--404" action="404-page.html" method="get">
+                                              <div class="ps-form__header">
+                                                <img src="assets/images/icono-no-orden.png" alt="">
+                                              </div>
+                                              <h4 class="text-muted">No tienes ninguna dirección registrada.</h4>
+
+                                            </form>
+                                          </div>
+                                      </div>
+                                  </ng-container>
+
+                                  <div class="col-12 text-center" *ngIf="load_data">
+                                      <span>Cargando...</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+<div id="captha"></div>
+<app-footer></app-footer>

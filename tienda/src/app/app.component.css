@@ -1,0 +1,33 @@
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#25d366;
+	color:#FFFFFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+  z-index: 10;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.my-float{
+  font-size: 30px;
+}
+
+@media (max-width: 600px) {
+  .float{
+    width:45px;
+    height:45px;
+    bottom:15px;
+    right:15px;
+  }
+
+  .my-float{
+    font-size: 25px;
+  }
+}

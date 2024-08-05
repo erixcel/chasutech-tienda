@@ -1,0 +1,32 @@
+[
+  {
+      "titulo":"Audifonos",
+      "slug":"audifonos",
+      "_id": "1000"
+  },
+  {
+      "titulo":"Cargadores",
+      "slug":"cargadores",
+      "_id": "1001"
+  },
+  {
+      "titulo":"Cables",
+      "slug":"cables",
+      "_id": "1002"
+  },
+  {
+      "titulo":"Smartwacht",
+      "slug":"smartwacht",
+      "_id": "1003"
+  },
+  {
+      "titulo":"Parlantes",
+      "slug":"parlantes",
+      "_id": "1004"
+  },
+  {
+      "titulo":"Otros",
+      "slug":"casacas",
+      "_id": "1500"
+  }
+]

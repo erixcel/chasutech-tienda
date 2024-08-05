@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
+
+.page_404 {
+  padding: 40px 0;
+  background: #fff;
+  font-family: "Arvo", serif;
+  height: 100vh;
+}
+
+.page_404 img {
+  width: 100%;
+}
+
+.four_zero_four_bg {
+  background-image: url(https://cdn.dribbble.com/users/7421625/screenshots/18846559/media/44df8aff3589c5cc949d13676e6cae3e.gif);
+  height: 350px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin-bottom: 30px;
+}
+
+h1 {
+  font-size: clamp(2rem, 8vw, 5rem);
+  font-family: 'Agbalumo', sans-serif;
+  margin: 0px;
+}
+
+.four_zero_four_bg h3 {
+  font-size: 80px;
+}
+
+.link_404 {
+  color: #fff !important;
+  padding: 10px 20px;
+  background: #0c96c8;
+  margin: 20px 0;
+  display: inline-block;
+}
+
+.contant_box_404 {
+  margin-top: -50px;
+}

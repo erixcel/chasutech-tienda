@@ -1,0 +1,230 @@
+<app-nav></app-nav>
+
+<div class="ps-page" >
+  <div class="ps-shop ps-shop--sidebar">
+    <div class="container">
+      <div class="ps-shop__container">
+        <div class="ps-shop__sidebar">
+
+          <aside class="widget widget_shop widget_categories">
+            <h3 class="widget-title">{{ 'shop.item_uno' | translate }}</h3>
+            <ul class="ps-list--under">
+              <li><a class="ps-link--line" (click)="buscar_por_categoria('todos')">Reset filtros</a></li>
+              <ng-container *ngFor="let item of categorias;let indice = index">
+                <li (click)="buscar_por_categoria(item._id)"><a class="ps-link--line" style="cursor: pointer;">{{item.titulo}}</a></li>
+              </ng-container>
+
+
+            </ul>
+          </aside>
+          <aside class="widget widget_shop widget_shop-filter">
+            <h3 class="widget-title">{{ 'shop.item_dos' | translate }}</h3>
+            <div class="ps-sliderr" id="ps-sliderr" data-default-min="0" data-default-max="100" data-max="100" data-step="5"></div>
+
+
+            <p class="ps-slider__meta">{{ 'shop.item_dos' | translate }}:
+              <span class="ps-slider__value ps-slider__min"></span>-
+              <span class="ps-slider__value ps-slider__max"></span>
+            </p>
+
+            <div class="row mt-3">
+              <div class="col-12">
+                <button class="ps-btn ps-btn--black btn-block" (click)="buscar_precios()">Filtrar</button>
+              </div>
+            </div>
+
+            <div class="widget__colors">
+              <h3 class="widget-title">{{ 'shop.item_tres' | translate }}</h3>
+              <div class="ps-color black active" style="margin-bottom:10px !important">
+                <span class="ps-color__left">
+                  <i>  Todos</i>
+                </span>
+                <input style="width: 15px;height: auto;margin-top: 8px !important;" type="radio" name="group2" (change)="buscar_por_estrella()" class="form-control radiocls" value="todos" [(ngModel)]="filter_estrella">
+              </div>
+              <div class="ps-color black active" style="margin-bottom:10px !important">
+                <span class="ps-color__left">
+                  <i>  5</i>
+                </span>
+                <input style="width: 15px;height: auto;margin-top: 8px !important;" type="radio" name="group2" (change)="buscar_por_estrella()" class="form-control radiocls" value=5 [(ngModel)]="filter_estrella">
+              </div>
+              <div class="ps-color black active" style="margin-bottom:10px !important">
+                <span class="ps-color__left">
+                  <i>  4</i>
+                </span>
+                <input style="width: 15px;height: auto;margin-top: 8px !important;" type="radio" name="group2" (change)="buscar_por_estrella()" class="form-control radiocls" value=4 [(ngModel)]="filter_estrella">
+              </div>
+              <div class="ps-color black active" style="margin-bottom:10px !important">
+                <span class="ps-color__left">
+                  <i>  3</i>
+                </span>
+                <input style="width: 15px;height: auto;margin-top: 8px !important;" type="radio" name="group2" (change)="buscar_por_estrella()" class="form-control radiocls" value=3 [(ngModel)]="filter_estrella">
+              </div>
+              <div class="ps-color black active" style="margin-bottom:10px !important">
+                <span class="ps-color__left">
+                  <i>  2</i>
+                </span>
+                <input style="width: 15px;height: auto;margin-top: 8px !important;" type="radio" name="group2" (change)="buscar_por_estrella()" class="form-control radiocls" value=2 [(ngModel)]="filter_estrella">
+              </div>
+              <div class="ps-color black active" style="margin-bottom:10px !important">
+                <span class="ps-color__left">
+                  <i>  1</i>
+                </span>
+                <input style="width: 15px;height: auto;margin-top: 8px !important;" type="radio" name="group2" (change)="buscar_por_estrella()" class="form-control radiocls" value=1 [(ngModel)]="filter_estrella">
+              </div>
+            </div>
+
+          </aside>
+          <aside class="widget widget_shop widget_product">
+            <h3 class="widget-title">{{ 'shop.item_cuatro' | translate }}</h3>
+            <ng-container *ngFor="let item of mas_vendidos;let idx = index">
+              <div class="ps-product--sidebar">
+                <div class="ps-product__thumbnail">
+                  <a class="ps-product__overlay" [routerLink]="['/productos/'+item.producto.slug]" ></a><img [src]="item.producto.portada" alt=""></div>
+                <div class="ps-product__content"><a class="ps-product__title" [routerLink]="['/productos/'+item.producto.slug]" >{{item.producto.titulo}}</a>
+                  <p class="ps-product__price">
+                    <span class=" mr-3"><b>S/{{item.producto.precio}}</b></span>
+                    <span class="text-danger" *ngIf="item.producto.precio_antes > 0">
+                      <del>S/{{item.producto.precio_antes}}</del>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </ng-container>
+
+
+
+          </aside>
+        </div>
+        <div class="ps-shop__wrapper">
+          <div class="ps-shop__header" style="padding-bottom: 50px !important;">
+            <div class="ps-shop__left">
+              <h1>Shop</h1>
+              <ul class="ps-breadcrumb">
+                <li><a [routerLink]="['/']" routerLinkActive="router-link-active" >Home</a></li>
+                <li>Shop</li>
+              </ul>
+            </div>
+            <div class="ps-shop__right">
+              <p><strong>{{productos.length}}</strong> Productos</p>
+              <div class="ps-shop__actions">
+
+                <div class="ps-shop__sorting" style="    padding-right: 0px !important;"><span>{{ 'shop.item_cinco' | translate }}</span>
+                  <select class="form-control"  name="sort_by" [(ngModel)]="sort_by" (change)="orden_por()" style="border: none;
+                  font-size: 1.5rem;">
+                    <option value="Defecto">Defecto</option>
+
+                    <option value="+-Precio">Mayor - menor precio</option>
+                    <option value="-+Precio">Menor - mayor precio</option>
+                    <option value="azTitulo">A - Z</option>
+                    <option value="zaTitulo">Z - A</option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="ps-shop__filter-panel"></div>
+          <div class="ps-shop__content">
+            <div class="row mb-5">
+              <ng-container *ngFor="let item of productos| slice: (page-1)*pageSize : (page-1) * pageSize + pageSize">
+                <ng-container *ngIf="item.visibilidad == 'Todo el mundo'">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6 " >
+                    <div class="ps-product">
+                      <div class="ps-product__thumbnail">
+                        <img class="ps-product__image" [src]="item.portada" alt=""/>
+                        <img class="ps-product__image-alt" [src]="item.galeria[0].imagen" alt=""/>
+                        <a class="ps-product__overlay" [routerLink]="['/productos/'+item.slug]" ></a>
+                        <span class="ps-badge ps-badge--hot" *ngIf="item.precio < item.precio_antes && item.precio_antes > 0">¡OFERTA!</span>
+
+                      </div>
+                      <div class="ps-product__content"><a class="ps-product__title"[routerLink]="['/productos/'+item.slug]" >{{item.titulo}}</a>
+                        <ng-container *ngFor="let i of [].constructor(item.estrellas)">
+                          <span><i class="text-warning fa fa-star"></i></span>
+                        </ng-container>
+                        <p class="ps-product__price">
+                          <span class=" mr-3"><b>S/{{item.precio}}</b></span>
+                          <span class="text-danger" *ngIf="item.precio_antes >= 1">
+                            <del>S/{{item.precio_antes}}</del>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="currency == 'PEN'">
+                  <ng-container *ngIf="item.visibilidad == 'Peru'">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6 " >
+                      <div class="ps-product">
+                        <div class="ps-product__thumbnail">
+                          <img class="ps-product__image" [src]="item.portada" alt=""/>
+                          <img class="ps-product__image-alt" [src]="item.galeria[0].imagen" alt=""/>
+                          <a class="ps-product__overlay" [routerLink]="['/productos/'+item.slug]" ></a>
+                          <span class="ps-badge ps-badge--hot" *ngIf="item.precio < item.precio_antes && item.precio_antes > 0">¡OFERTA!</span>
+
+                        </div>
+                        <div class="ps-product__content"><a class="ps-product__title"[routerLink]="['/productos/'+item.slug]" >{{item.titulo}}</a>
+                          <ng-container *ngFor="let i of [].constructor(item.estrellas)">
+                            <span><i class="text-warning fa fa-star"></i></span>
+                          </ng-container>
+                          <p class="ps-product__price">
+                            <span class=" mr-3"><b>S/{{item.precio}}</b></span>
+                            <span class="text-danger" *ngIf="item.precio_antes >= 1">
+                              <del>S/{{item.precio_antes}}</del>
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngIf="currency != 'PEN'">
+                  <ng-container *ngIf="item.visibilidad == 'Exterior'">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6 " >
+                      <div class="ps-product">
+                        <div class="ps-product__thumbnail">
+                          <img class="ps-product__image" [src]="item.portada" alt=""/>
+                          <img class="ps-product__image-alt" [src]="item.galeria[0].imagen" alt=""/>
+                          <a class="ps-product__overlay" [routerLink]="['/productos/'+item.slug]" ></a>
+                          <span class="ps-badge ps-badge--hot" *ngIf="item.precio < item.precio_antes && item.precio_antes > 0">¡OFERTA!</span>
+
+                        </div>
+                        <div class="ps-product__content"><a class="ps-product__title"[routerLink]="['/productos/'+item.slug]" >{{item.titulo}}</a>
+                          <ng-container *ngFor="let i of [].constructor(item.estrellas)">
+                            <span><i class="text-warning fa fa-star"></i></span>
+                          </ng-container>
+                          <p class="ps-product__price">
+                            <span class=" mr-3"><b>S/{{item.precio}}</b></span>
+                            <span class="text-danger" *ngIf="item.precio_antes >= 1">
+                              <del>S/{{item.precio_antes}}</del>
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+
+
+
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <ngb-pagination
+                  [(page)]="page"
+                  [pageSize]="pageSize"
+                  [collectionSize]="productos.length"
+                ></ngb-pagination>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<app-footer></app-footer>

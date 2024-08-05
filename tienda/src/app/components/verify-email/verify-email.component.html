@@ -1,0 +1,32 @@
+<section class="page_404 d-flex align-items-center justify-content-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-sm-offset-1 text-center">
+        <ng-container *ngIf="verifiy_email == 0">
+          <h1 class="text-center">Verificando ...</h1>
+          <div class="four_zero_four_bg">
+          </div>
+        </ng-container>
+        <ng-container *ngIf="verifiy_email == 1">
+          <h1 class="text-center">¡ Verificacion exitosa !</h1>
+          <div class="four_zero_four_bg">
+          </div>
+          <div class="contant_box_404">
+            <h3 class="h2">Bienvenido a Chasutech</h3>
+            <p>Correo verificado correctamente</p>
+            <a href="/login" class="link_404">Iniciar Sesion</a>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="verifiy_email == 2">
+          <h1 class="text-center">Verificacion Fallida :(</h1>
+          <div class="four_zero_four_bg">
+          </div>
+          <div class="contant_box_404">
+            <h3 class="h2">Intenta nuevamente</h3>
+            <p>Hubo un error al verificar tu correo</p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</section>
